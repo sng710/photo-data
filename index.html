@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<meta content="light" name="color-scheme"/>
+<meta content="כלי חינמי ופתוח לקטלוג תמונות וארכיון: EXIF, IPTC, XMP, OCR ו-AI מקומי — ללא חשבון וללא העלאת תמונות לשרת." name="description"/>
+<title>ארכיון בתמונה | מפענח תמונות חינמי עם AI</title>
+<!-- Dependencies are version-pinned; no analytics, no upload endpoint. -->
+<link href="styles.css" rel="stylesheet"/><link href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Ctext%20y%3D%22.9em%22%20font-size%3D%2254%22%3E%F0%9F%93%B7%3C/text%3E%3C/svg%3E" rel="icon"/><meta content="ארכיון בתמונה | קטלוג תמונות חינמי" property="og:title"/><meta content="EXIF, XMP, IPTC, OCR ו-AI — ללא העלאת תמונות לשרת, ללא חשבון וללא תשלום" property="og:description"/><meta content="website" property="og:type"/><meta content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'none'; script-src 'self' https://cdn.jsdelivr.net 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob: data:; worker-src 'self' blob: https://cdn.jsdelivr.net; connect-src 'self' https: blob: data:; font-src 'self' data:;" http-equiv="Content-Security-Policy"/></head>
+<body><noscript>יש לאפשר JavaScript בדפדפן כדי להשתמש בכלי.</noscript>
+<main class="shell">
+<header class="mast"><div><h1>ארכיון בתמונה <span aria-hidden="true">📷</span></h1><p>חילוץ מטא־דאטה, פענוח כיתובים ויצירת תיאורי AI — ללא תשלום וללא חשבון</p></div><div class="free">100% ללא API בתשלום</div></header>
+<div class="upload" id="dropzone">
+<strong>גרירת תמונות ותיקיות לכאן, או בחירת קבצים</strong>
+<p>אפשר להוסיף הרבה תמונות יחד · JPG, PNG, WEBP, TIFF ועוד (לתמיכה בתצוגה/AI דרוש פורמט שהדפדפן יודע לפתוח)</p>
+<p class="hint">בחירת תמונה עשויה לטעון את ספריית exifr החיצונית כדי לקרוא תגיות מתקדמות. אין שליחת קובץ אל השרת לשם חילוץ.</p>
+<button class="btn primary" id="pickFiles" type="button">＋ בחירת תמונות</button>
+<button class="btn" id="pickFolder" type="button">📁 תיקייה שלמה (Chrome / Edge)</button>
+<input accept="image/*,.tif,.tiff,.heic,.heif,.avif" aria-label="בחירת קובצי תמונה" id="filesInput" multiple tabindex="-1" type="file"/>
+<input directory aria-label="בחירת תיקיית תמונות" id="folderInput" multiple tabindex="-1" type="file" webkitdirectory/>
+</div>
+<details class="archive-disclosure"><summary>הנחיות לקטלוג היסטורי ולייצוא בטוח</summary><div class="top-note" role="note"><strong>חשוב לארכיון:</strong> תאריכים, מיקום ושם צלם יופיעו כשדות מקור <strong>רק כשנמצאו במטא־דאטה המקורי</strong> — וגם אז יש לבדוק אם הם מתייחסים לסריקה או לצילום ההיסטורי. תיאורי AI ומילים שנקראו ב-OCR הן הצעות בלבד ודורשות אימות. ייצוא נתונים עלול לכלול GPS ופרטים אישיים, לכן יש לבדוק לפני שיתוף. התמונות מעובדות בדפדפן שלך; נדרש אינטרנט להורדת ספריות ומודלי AI חינמיים, והמערכת אינה מעלה את התמונות לשרת לצורך עיבוד.</div></details>
+<details class="privacy-disclosure"><summary>פרטיות: כיצד הכלי עובד ומה נשמר בדפדפן?</summary><div class="privacy-note">העיבוד מתבצע בדפדפן; התמונות אינן נשלחות לאתר או נשמרות אצלו. אפשר להפעיל שמירה מקומית של שדות הקטלוג בלבד; היא כבויה כברירת מחדל ואינה שומרת תמונות, מטא־דאטה או OCR; אפשר למחוק אותה בכל עת. מודלי AI וקובצי שפה יורדים ממקורות חיצוניים בעת השימוש. מחיקת נתוני אתר בדפדפן תמחק את הטיוטה.</div></details><div class="recovery-banner" hidden id="recoveryBanner">נמצאה טיוטת קטלוג קודמת בדפדפן הזה. לשחזר ללא התמונות המקוריות? <button class="btn small" id="restoreDraft" type="button">שחזור טיוטה</button><button class="btn small danger" id="discardDraft" type="button">מחיקת הטיוטה</button></div>
+<div class="settings autosave-settings"><label><input id="autosaveOptIn" type="checkbox"> הפעלת שמירה אוטומטית מקומית של שדות הקטלוג בלבד (כבויה כברירת מחדל)</label><span class="hint">לא נשמרים קובצי תמונה, EXIF, GPS, OCR או תיאורי AI. גם שדות קטלוג עשויים לכלול מידע אישי — לא מומלץ במחשב ציבורי או משותף. ההעדפה אינה נשמרת בין ביקורים.</span><button class="btn small danger" id="deleteAllDrafts" type="button">מחיקת כל הטיוטות המקומיות (גם מגרסאות ישנות)</button></div>
+<div aria-label="אפשרויות ניתוח" role="group" class="settings">
+<label><input id="doOcr" type="checkbox"/> קריאת טקסט מתמונה (OCR)</label>
+<label><input id="doAi" type="checkbox"/> תיאור תמונה באמצעות AI מקומי</label>
+<label>שפות OCR <select id="ocrLang"><option value="heb+eng">עברית + אנגלית</option><option value="heb">עברית</option><option value="eng">אנגלית</option><option value="ara+heb+eng">ערבית + עברית + אנגלית</option><option value="ara">ערבית</option></select></label>
+<span class="hint">EXIF ומטא־דאטה מתחילים אוטומטית; AI ו-OCR כבויים עד לבחירה מפורשת. הפעלתם עשויה להוריד ספריות, מודלים וקובצי שפה חיצוניים. ה-AI מתאר באנגלית; המודל עשוי להוריד מאות מגה־בייט ואף יותר מ־1GB, ודורש זיכרון פנוי. עיבוד בדפדפן, ללא שרת התמונות.</span>
+<label><input checked id="ocrPreprocess" type="checkbox"/> שיפור ניגודיות וסריקה ל-OCR</label></div><div aria-label="פרטיות בייצוא" role="group" class="settings export-privacy"><strong>פרטיות בייצוא (מופעל כברירת מחדל):</strong><label><input checked id="hideGps" type="checkbox"/> ללא מיקום GPS</label><label><input checked id="hidePersonal" type="checkbox"/> ללא פרטי אנשים מזוהים ונתוני קשר (קרדיט לצלם וזכויות נשמרים)</label><label><input id="hideOcr" type="checkbox"> הסרת טקסט OCR מהייצוא (כבוי כברירת מחדל)</label><span class="hint">כברירת מחדל טקסט OCR, שם הצלם ופרטי זכויות כן נכללים ביצוא. שמות קבצים ותיאורים חופשיים עשויים עדיין לחשוף מידע רגיש. בדקו את התוצאה לפני שיתוף.</span></div>
+<details id="exportPreviewPanel" class="export-preview">
+<summary>תצוגה מקדימה: מה ייכלל בייצוא לשיתוף?</summary>
+<div id="shareExportSummary" aria-live="polite">יש להוסיף תמונות כדי לראות דוגמת ייצוא.</div>
+<pre id="sharePreviewJson" class="export-sample" dir="ltr" aria-label="דוגמת נתונים לאחר סינון"></pre>
+<p class="hint">זוהי דוגמה מתוך הרשומה הראשונה בלבד. סינון לפי שמות שדות אינו מבטיח אנונימיות; יש לבדוק שמות קבצים, שדות חופשיים ומידע לפני פרסום. גיבויים פרטיים מלאים אינם מסוננים.</p>
+</details>
+<div class="toolbar">
+<button type="button" class="btn primary" disabled id="runAll">▶ ניתוח כל התמונות</button>
+<button type="button" class="btn danger" disabled id="stopRun">עצירה אחרי התמונה הנוכחית</button>
+<button type="button" class="btn" disabled id="csvBtn">ייצוא קטלוג CSV לאקסל</button>
+<button type="button" class="btn" disabled id="wideBtn">ייצוא כל שדות המטא־דאטה CSV</button><button type="button" class="btn" disabled id="dcBtn">ייצוא Dublin Core (CSV)</button>
+<button type="button" class="btn" disabled id="jsonBtn">ייצוא JSON לשיתוף (עם סינון פרטיות)</button><button class="btn" disabled id="backupBtn" type="button">גיבוי פרטי מלא JSON (כולל מידע רגיש)</button><button type="button" class="btn" disabled id="jsonlBtn">ייצוא JSONL מלא לשחזור (כולל מידע רגיש)</button>
+<button type="button" class="btn" id="importBtn">טעינת פרויקט שמור</button>
+<input accept=".json,.jsonl,application/json,application/x-ndjson" class="sr-only" aria-label="בחירת פרויקט JSON או JSONL" id="importInput" tabindex="-1" type="file"/>
+<button type="button" class="btn danger" disabled id="clearBtn">ניקוי הרשימה והטיוטה המקומית</button>
+</div>
+<div aria-live="polite" class="progress-wrap"><div id="statusText">יש להוסיף תמונות כדי להתחיל. חילוץ המטא־דאטה מתבצע עם ההוספה.</div><div aria-label="התקדמות ניתוח" aria-valuemax="100" aria-valuemin="0" aria-valuenow="0" class="progress" id="progressBar" role="progressbar"><div id="progressFill"></div></div><div class="hint" id="libStatus">ללא תשלום או מפתח API. אפשר להשתמש במטא־דאטה גם בלי להפעיל AI.</div><div class="hint" id="draftStatus"></div></div>
+<div class="summary" id="summary"><span class="pill">0 תמונות</span></div>
+<div class="layout">
+<section aria-label="רשימת התמונות" class="pane"><div class="pane-head"><h2>תמונות בפרויקט</h2><input aria-label="חיפוש בתמונות" class="search" id="searchInput" placeholder="חיפוש בכל שדות הקטלוג, תגיות ו-OCR" type="search"/></div><div class="batch-tools" id="batchTools" role="group" aria-label="עריכה קבוצתית של תמונות">
+<div class="batch-top"><button type="button" class="btn small" id="selectShown">בחירת כל התמונות המוצגות</button><button type="button" class="btn small" id="unselectAll">ביטול בחירה</button><span id="selectedCount" aria-live="polite">0 נבחרו</span></div>
+<label>שדה לעדכון<select id="batchField"><option value="settlement">יישוב</option><option value="collection">אוסף</option><option value="photographer">צלם</option><option value="rights">זכויות</option><option value="year">שנה / תקופה</option><option value="tags">תגיות</option></select></label>
+<label>ערך<input type="text" id="batchValue" maxlength="4000" placeholder="ערך לכל הרשומות שנבחרו"/></label>
+<label class="batch-empty"><input type="checkbox" id="batchOnlyEmpty" checked/> רק שדות ריקים (מומלץ)</label>
+<button type="button" class="btn small primary" id="applyBatch">החלת ערך</button>
+</div>
+<div class="list" id="photosList"><div class="blank"><strong>אין תמונות עדיין</strong>יש להוסיף תמונות באזור העליון.</div></div></section>
+<section aria-label="מידע וקטלוג תמונה" class="pane"><div class="pane-body" id="detail"><div class="blank"><strong>כאן יופיעו פרטי התמונה</strong>אחרי הוספת קובץ ניתן יהיה לבדוק את נתוני המקור, התיאור האוטומטי ופרטי הקטלוג.</div></div></section>
+</div>
+<div class="footer">גרסה <span id="appVersion"></span> · ארכיון בתמונה · EXIF, IPTC, XMP, OCR ו-AI · אין זיהוי אנשים או הסקת אירועים היסטוריים. תמונות נשארות במכשיר; שמירה מקומית אופציונלית של שדות קטלוג, וניתנת למחיקה.</div>
+</main>
+<div class="toast" hidden id="toast" role="status"></div>
+<script src="app.js" type="module"></script></body>
+</html>
